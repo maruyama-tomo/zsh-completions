@@ -1,0 +1,48 @@
+#compdef packager
+
+_arguments \
+  '--protection_scheme[Specify a protection scheme]:enum:(cenc cbcs)' \
+  '--generate_static_live_mpd[Generate static mpd]' \
+  '--mpd_output[MPD output file name]:path:_files' \
+  '--clear_lead[Clea lead in seconds]:double: ' \
+  '--nogenerate_sidx_in_media_segments[For live profile only]' \
+  '--nomp4_include_pssh_in_stream[Include pssh in the stream]' \
+  '--segment_duration[Segment duration in seconds]:double: ' \
+  '--quiet[Suppress LOG(INFO) output]' \
+  '--protection_systems[Protection systems to be generated]:systems:->systems' \
+  '--enable_raw_key_encryption[Enable encryption with raw key]' \
+  '--iv[IV in hex string format]:hex: ' \
+  '--keys[A list of key information]:keys:->keys' \
+  '*--pssh[One or more PSSH boxes in hex string format]:hex: ' \
+  '*:stream_descriptor:->stream_descriptor'
+
+case "$state" in
+  systems)
+    _values -s , 'systems' 'Widevine' 'PlayReady' 'FairPlay'
+    ;;
+  keys)
+    _values -s : -S = 'information' \
+       'label:enum:(AUDIO SD HD UHD1 UHD2)' \
+       'key_id:hex: ' \
+       'key:hex: '
+    ;;
+  stream_descriptor)
+    _values -s , -S = 'descriptor' \
+       'in:path:_files' \
+       'stream:enum:(audio video)' \
+       'out:path:_files' \
+       'init_segment:path:_files' \
+       'segment_template:path:_files' \
+       'format:enum:(MP4 WebM)' \
+       'skip_encryption' \
+       'drm_label:enum:(AUDIO SD HD UHD1 UHD2)'
+    ;;
+esac
+
+# Local Variables:
+# mode: Shell-Script
+# sh-indentation: 2
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:
+# vim: ft=zsh sw=2 ts=2 et
