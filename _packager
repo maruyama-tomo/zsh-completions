@@ -34,7 +34,7 @@ case "$state" in
        'init_segment:path:_files' \
        'segment_template:path:_files' \
        'format:enum:(MP4 WebM)' \
-       'skip_encryption' \
+       'skip_encryption:int:(0 1)' \
        'drm_label:enum:(AUDIO SD HD UHD1 UHD2)'
     ;;
 esac
